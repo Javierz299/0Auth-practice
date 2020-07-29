@@ -10,7 +10,7 @@ class GoogleAuth extends Component {
         window.gapi.load('client:auth2', () => {
             window.gapi.client.init({
                 clientId:'125936132896-5tpkk63aqch8uv19njjp6km7pf7ihqk2.apps.googleusercontent.com',
-                scope: 'profile email'
+                scope: 'openid profile email'
             })
             .then(() => {
                 this.auth = window.gapi.auth2.getAuthInstance()
@@ -26,20 +26,26 @@ class GoogleAuth extends Component {
         this.setState({ isSignedIn: this.auth.isSignedIn.get() })
     }
 
-    renderAuthButton = () =>{
+    onSignIn = () => {
+        this.auth.signIn()
+    }
+
+    onSignOut = () => {
+        this.auth.signOut()
+    }
+
+    renderAuthButton = () => {
         if(this.state.isSignedIn === null){
             return (
                 <div>not sure if signed in</div>
             )
-        } else if (this.state.isSignedIn){
-            return (
-                <div>i am signed in!</div>
-            )
         } else {
-            return (
-                <div>i am NOT signed in</div>
-            )
+            return this.state.isSignedIn ? 
+            <button onClick={() => this.onSignOut()} >Sign Out</button> : 
+            <button onClick={() => this.onSignIn()} >Sing in</button>
         }
+
+       
     }
 
 

@@ -15,15 +15,16 @@ export class GoogleAuth extends Component {
             .then(() => {
                 this.auth = window.gapi.auth2.getAuthInstance()
                 //this.onAuthChange()
+                console.log(JSON.stringify(this.auth.currentUser.get().getBasicProfile()))
                 this.onAuthChange(this.auth.isSignedIn.get())
                 this.auth.isSignedIn.listen(this.onAuthChange)
             })
+            
         })
     }
 
     onAuthChange = (isSignedIn) => {
-        console.log(isSignedIn)
-        return isSignedIn ? this.props.signIn() : this.props.signOut()
+        return isSignedIn ? this.props.signIn(this.auth.currentUser.get().getId()) : this.props.signOut()
         //this.setState({ isSignedIn: this.auth.isSignedIn.get() })
     }
 
@@ -69,7 +70,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return {
-        signIn: () => dispatch(ACTIONS.signIn()),
+        signIn: (id) => dispatch(ACTIONS.signIn(id)),
         signOut: () => dispatch(ACTIONS.signOut())
     }
 }

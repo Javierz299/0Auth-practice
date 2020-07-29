@@ -3,7 +3,9 @@ import * as ACTION_TYPES from '../actions/action_types'
 
 const initialState = {
     is_authenticated: false,
-    isSignedIn: null
+    isSignedIn: null,
+    userId: null,
+
 }
 
 export default (state = initialState, action) => {
@@ -11,12 +13,14 @@ export default (state = initialState, action) => {
         case ACTION_TYPES.SIGN_IN:
             return {
                 ...state,
-                isSignedIn: true
+                isSignedIn: true,
+                userId: action.payload,
             }
         case ACTION_TYPES.SIGN_OUT:
             return {
                 ...state,
-                isSignedIn: false
+                isSignedIn: false,
+                userId: null
             }
         default:
             return state

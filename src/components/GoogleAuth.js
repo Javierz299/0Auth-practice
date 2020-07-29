@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import * as ACTIONS from '../actions/index'
+import * as ACTIONS from '../actions/actions'
 
 
 export class GoogleAuth extends Component {

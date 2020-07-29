@@ -1,3 +1,5 @@
+import * as ACTION_TYPES from '../actions/action_types'
+
 
 const initialState = {
     is_authenticated: false,
@@ -6,12 +8,12 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type){
-        case 'SIGN_IN':
+        case ACTION_TYPES.SIGN_IN:
             return {
                 ...state,
                 isSignedIn: true
             }
-        case 'SIGN_OUT':
+        case ACTION_TYPES.SIGN_OUT:
             return {
                 ...state,
                 isSignedIn: false

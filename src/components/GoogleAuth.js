@@ -17,7 +17,6 @@ class GoogleAuth extends Component {
                 //this.onAuthChange()
                 this.setState({ isSignedIn: this.auth.isSignedIn.get()})
                 this.auth.isSignedIn.listen(this.onAuthChange)
-                console.log(this.state.isSignedIn)
             })
         })
     }
@@ -26,11 +25,11 @@ class GoogleAuth extends Component {
         this.setState({ isSignedIn: this.auth.isSignedIn.get() })
     }
 
-    onSignIn = () => {
+    onSignInClick = () => {
         this.auth.signIn()
     }
 
-    onSignOut = () => {
+    onSignOutClick = () => {
         this.auth.signOut()
     }
 
@@ -40,9 +39,10 @@ class GoogleAuth extends Component {
                 <div>not sure if signed in</div>
             )
         } else {
+            console.log(this.state.isSignedIn)
             return this.state.isSignedIn ? 
-            <button onClick={() => this.onSignOut()} >Sign Out</button> : 
-            <button onClick={() => this.onSignIn()} >Sing in</button>
+            <button onClick={() => this.onSignOutClick()} >Sign Out</button> : 
+            <button onClick={() => this.onSignInClick()} >Sing in</button>
         }
 
        
@@ -50,6 +50,7 @@ class GoogleAuth extends Component {
 
 
     render() {
+        
         return (
             <div>
                 {this.renderAuthButton()}

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import * as ACTIONS from '../actions/index'
 
-class GoogleAuth extends Component {
 
-    state = {
-        isSignedIn: null,
-    }
+export class GoogleAuth extends Component {
+
 
     componentDidMount(){
         window.gapi.load('client:auth2', () => {
@@ -15,14 +15,16 @@ class GoogleAuth extends Component {
             .then(() => {
                 this.auth = window.gapi.auth2.getAuthInstance()
                 //this.onAuthChange()
-                this.setState({ isSignedIn: this.auth.isSignedIn.get()})
+                this.onAuthChange(this.auth.isSignedIn.get())
                 this.auth.isSignedIn.listen(this.onAuthChange)
             })
         })
     }
 
-    onAuthChange = () => {
-        this.setState({ isSignedIn: this.auth.isSignedIn.get() })
+    onAuthChange = (isSignedIn) => {
+        console.log(isSignedIn)
+        return isSignedIn ? this.props.signIn() : this.props.signOut()
+        //this.setState({ isSignedIn: this.auth.isSignedIn.get() })
     }
 
     onSignInClick = () => {
@@ -34,13 +36,12 @@ class GoogleAuth extends Component {
     }
 
     renderAuthButton = () => {
-        if(this.state.isSignedIn === null){
+        if(this.props.isSignedIn === null){
             return (
                 <div>not sure if signed in</div>
             )
         } else {
-            console.log(this.state.isSignedIn)
-            return this.state.isSignedIn ? 
+            return this.props.isSignedIn ? 
             <button onClick={() => this.onSignOutClick()} >Sign Out</button> : 
             <button onClick={() => this.onSignInClick()} >Sing in</button>
         }
@@ -57,6 +58,20 @@ class GoogleAuth extends Component {
             </div>
         )
     }
+    
 }
 
-export default GoogleAuth
+function mapStateToProps(state){
+    return {
+        isSignedIn: state.auth.isSignedIn,
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        signIn: () => dispatch(ACTIONS.signIn()),
+        signOut: () => dispatch(ACTIONS.signOut())
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(GoogleAuth)

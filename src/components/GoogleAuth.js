@@ -15,9 +15,17 @@ export class GoogleAuth extends Component {
             .then(() => {
                 this.auth = window.gapi.auth2.getAuthInstance()
                 //this.onAuthChange()
-                console.log(JSON.stringify(this.auth.currentUser.get().getBasicProfile()))
+                let profile = this.auth.currentUser.get().getBasicProfile()
                 this.onAuthChange(this.auth.isSignedIn.get())
                 this.auth.isSignedIn.listen(this.onAuthChange)
+                console.log(JSON.stringify(this.auth.currentUser.get().getBasicProfile()))
+                console.log('ID: ' + profile.getId());
+                console.log('Full Name: ' + profile.getName());
+                console.log('Given Name: ' + profile.getGivenName());
+                console.log('Family Name: ' + profile.getFamilyName());
+                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Email: ' + profile.getEmail())
+                console.log({id: profile.getId(), full_name: profile.getName(), email: profile.getEmail()})
             })
             
         })
